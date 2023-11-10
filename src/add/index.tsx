@@ -12,6 +12,7 @@ import { markdownShortcutPlugin } from "@mdxeditor/editor/plugins/markdown-short
 import { toolbarPlugin } from "@mdxeditor/editor/plugins/toolbar";
 import { UndoRedo } from "@mdxeditor/editor/plugins/toolbar/components/UndoRedo";
 import { BoldItalicUnderlineToggles } from "@mdxeditor/editor/plugins/toolbar/components/BoldItalicUnderlineToggles";
+import { MDXEditorMethods } from "@mdxeditor/editor";
 
 function Add() {
   const ref = useRef<MDXEditorMethods>(null);
