@@ -1,4 +1,5 @@
 import { createRoot } from "react-dom/client";
+import React, { useRef } from "react";
 import "@mdxeditor/editor/style.css";
 
 // importing the editor and the plugin from their full paths
@@ -13,26 +14,45 @@ import { UndoRedo } from "@mdxeditor/editor/plugins/toolbar/components/UndoRedo"
 import { BoldItalicUnderlineToggles } from "@mdxeditor/editor/plugins/toolbar/components/BoldItalicUnderlineToggles";
 
 function Add() {
+  const ref = useRef<MDXEditorMethods>(null);
+
+  // When the user clicks ctrl+s, save the thought
+  // use react hooks
+  React.useEffect(() => {
+    const saveThought = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === "s") {
+        window.electronAPI.saveThought(ref.current?.getMarkdown());
+      }
+    };
+    document.addEventListener("keydown", saveThought);
+    return () => {
+      document.removeEventListener("keydown", saveThought);
+    };
+  }, []);
+
   return (
-    <MDXEditor
-      markdown="# Hello world"
-      plugins={[
-        headingsPlugin(),
-        listsPlugin(),
-        quotePlugin(),
-        markdownShortcutPlugin(),
-        codeBlockPlugin({ defaultCodeBlockLanguage: "txt" }),
-        toolbarPlugin({
-          toolbarContents: () => (
-            <>
-              {" "}
-              <UndoRedo />
-              <BoldItalicUnderlineToggles />
-            </>
-          ),
-        }),
-      ]}
-    />
+    <>
+      <MDXEditor
+        ref={ref}
+        markdown="Thought..."
+        plugins={[
+          headingsPlugin(),
+          listsPlugin(),
+          quotePlugin(),
+          markdownShortcutPlugin(),
+          codeBlockPlugin({ defaultCodeBlockLanguage: "txt" }),
+          toolbarPlugin({
+            toolbarContents: () => (
+              <>
+                {" "}
+                <UndoRedo />
+                <BoldItalicUnderlineToggles />
+              </>
+            ),
+          }),
+        ]}
+      />
+    </>
   );
 }
 

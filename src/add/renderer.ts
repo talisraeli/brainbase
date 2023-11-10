@@ -25,7 +25,7 @@
  *  });
  * ```
  */
-import "../index.css";
+import "../globals.css";
 import "./style.css";
 
 console.log(
