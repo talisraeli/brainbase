@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, globalShortcut } from "electron";
 import path from "path";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -6,11 +6,26 @@ if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
+const registerShortcuts = (windows: { [key: string]: any }) => {
+  globalShortcut.register("CommandOrControl+Alt+B", () => {
+    windows["settings_window"].isVisible()
+      ? windows["settings_window"].hide()
+      : windows["settings_window"].show();
+  });
+
+  globalShortcut.register("CommandOrControl+Alt+Space", () => {
+    windows["add_window"].isVisible()
+      ? windows["add_window"].hide()
+      : windows["add_window"].show();
+  });
+};
+
 const createWindow = () => {
   // Create the browser window.
   const settingsWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    show: false,
     // webPreferences: {
     //   preload: path.join(__dirname, "preload.js"),
     // },
@@ -20,6 +35,7 @@ const createWindow = () => {
     // show: false,
     width: 200,
     height: 200,
+    show: false,
     frame: false,
   });
 
@@ -42,6 +58,11 @@ const createWindow = () => {
       path.join(__dirname, `../renderer/${ADD_WINDOW_VITE_NAME}/index.html`)
     );
   }
+
+  registerShortcuts({
+    settings_window: settingsWindow,
+    add_window: addWindow,
+  });
 
   // Open the DevTools.
   // settingsWindow.webContents.openDevTools();
@@ -72,3 +93,8 @@ app.on("activate", () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+app.on("will-quit", () => {
+  // Unregister all shortcuts.
+  globalShortcut.unregisterAll();
+});
