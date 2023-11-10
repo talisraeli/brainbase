@@ -1,7 +1,8 @@
 import { app, BrowserWindow, globalShortcut, ipcMain } from "electron";
 import path from "path";
 import { getDimensions } from "./utils";
-import { handleSetTitle, registerHandlers } from "./handlers";
+import { registerHandlers } from "./handlers";
+import { initDB, saveToDB } from "./db";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -78,6 +79,8 @@ const createWindows = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", () => {
+  initDB();
+  saveToDB("Hello World");
   registerHandlers(ipcMain);
   createWindows();
 });

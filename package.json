@@ -25,6 +25,7 @@
     "@electron-forge/maker-zip": "^6.4.2",
     "@electron-forge/plugin-auto-unpack-natives": "^6.4.2",
     "@electron-forge/plugin-vite": "^6.4.2",
+    "@types/better-sqlite3": "^7.6.7",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
@@ -37,6 +38,7 @@
   },
   "dependencies": {
     "@mdxeditor/editor": "^1.8.1",
+    "better-sqlite3": "^9.1.1",
     "electron-squirrel-startup": "^1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
