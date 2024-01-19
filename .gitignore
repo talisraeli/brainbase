@@ -91,3 +91,6 @@ typings/
 # Electron-Forge
 out/
 .vite
+
+# Visual Studio Code
+.vscode/
